@@ -14,6 +14,7 @@ class App extends Component {
       temp: '',
       weather_main: '',
       weather_desc: '',
+      icon: '',
     };
     this.handleChange = this.handleChange.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
@@ -42,6 +43,7 @@ class App extends Component {
         temp: result[1].main.temp,
         weather_main: result[1].weather[0].main,
         weather_desc:  result[1].weather[0].description,
+        icon: result[1].weather[0].icon
       })
       console.log(this.state)
     })
@@ -50,7 +52,7 @@ class App extends Component {
 
   render() {
 
-    const {isLoaded, background, location, temp, weather_main, weather_desc} = this.state;
+    const {isLoaded, background, location, temp, weather_main, weather_desc, icon} = this.state;
 
     const backgroundStyle = {      
       backgroundImage: `url("${background}")`,
@@ -64,21 +66,24 @@ class App extends Component {
         className="App"
         style={backgroundStyle}
         >
+
+        <div className="searchbar-container">
+          <form className="searchbar-content" onSubmit={this.handleSubmit}>
+            <div className="search-area">
+              <img src="https://img.icons8.com/android/96/000000/search.png" />
+              <input className="searchbar-input" type="text" value={this.state.query} onChange={this.handleChange} placeholder="Search City..."/>
+            </div>
+          </form>
+         </div>
+
         <WeatherDisplay
           location={location}
           temp={temp}
           weather_main={weather_main}
           weather_desc={weather_desc}
+          icon={icon}
          />
-
-         <div className="search-container">
-
-          <form onSubmit={this.handleSubmit}>
-            <input type="text" value={this.state.query} onChange={this.handleChange} />
-            <input type="submit" value="Submit" />
-          </form>
-          
-         </div>
+         
         </div>
       );
      
