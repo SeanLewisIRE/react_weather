@@ -41,6 +41,10 @@ body, html {
   color: black;
 }
 
+::placeholder {
+  color: black;
+}
+
 .icon {
   margin: 0 2.5% 0 1%;
 }
