@@ -15,6 +15,7 @@ class App extends Component {
       weather_main: '',
       weather_desc: '',
       icon: '',
+      isActive: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
@@ -29,13 +30,15 @@ class App extends Component {
     this.setState({query: e.target.value});
   };
 
+
   handleSubmit(e) {
     Promise.all([
       fetch(`https://api.unsplash.com/search/photos?page=1&query=${this.state.query}&client_id=4e2cb4fefbcb90d124c35c05112315f1a9ba5e10de372fc7eb1f54c74807ade2`)
       .then(res => res.json()),
       fetch(`https://api.openweathermap.org/data/2.5/weather?q=${this.state.query}&APPID=40e3500120c6d881f6f45e3e83c48104`)
       .then(res => res.json())
-    ]).then((result) => {
+    ])
+    .then((result) => {
       this.setState({
         isLoaded: true,
         background: result[0].results[0].urls.full,
@@ -43,16 +46,17 @@ class App extends Component {
         temp: result[1].main.temp,
         weather_main: result[1].weather[0].main,
         weather_desc:  result[1].weather[0].description,
-        icon: result[1].weather[0].icon
-      })
-      console.log(this.state)
-    })
+        icon: result[1].weather[0].icon,
+        isActive: true
+      });
+    });
     e.preventDefault();
+
   }
 
   render() {
 
-    const {isLoaded, background, location, temp, weather_main, weather_desc, icon} = this.state;
+    const {isLoaded, background, location, temp, weather_main, weather_desc, icon, isActive} = this.state;
 
     const backgroundStyle = {      
       backgroundImage: `url("${background}")`,
@@ -69,10 +73,8 @@ class App extends Component {
 
         <div className="searchbar-container">
           <form className="searchbar-content" onSubmit={this.handleSubmit}>
-            <div className="search-area">
-              <img src="https://img.icons8.com/android/96/000000/search.png" />
+              <i className="icon fas fa-search"></i>
               <input className="searchbar-input" type="text" value={this.state.query} onChange={this.handleChange} placeholder="Search City..."/>
-            </div>
           </form>
          </div>
 
@@ -82,6 +84,7 @@ class App extends Component {
           weather_main={weather_main}
           weather_desc={weather_desc}
           icon={icon}
+          isActive={isActive}
          />
          
         </div>
