@@ -1,3 +1,28 @@
+
+<h1>Weather Application</h1>
+Weather forecast applcaition powered by React.js
+
+<h2>Summary</h2>
+<p>Allows users to type city name to serach for the current weather at that location. Based on user search, background image will update to an image of the queried city if an image is available. 
+</p>
+
+Current Features:
+<ul>
+  <li>Mobile-first layout</li>
+  <li>Responsive design</li>
+  <li>Interactive map</li>
+  <li>Interaction with Open-Weather-Map API</li>
+  <li>Interaction with Unsplash API</li>
+</ul>
+
+
+<h2>Technologies:</h2>
+React.js
+
+<h2>Launch</h2>
+Repository uploaded 18 Oct, 2019.
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
