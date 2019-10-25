@@ -73,7 +73,7 @@ class App extends Component {
 
         <div className="searchbar-container">
           <form className="searchbar-content" onSubmit={this.handleSubmit}>
-              <i className="icon fas fa-search"></i>
+              <button className="btn" type="submit"><i className="icon fas fa-search fa-lg"></i></button>
               <input className="searchbar-input" type="text" value={this.state.query} onChange={this.handleChange} placeholder="Search City..."/>
           </form>
          </div>
