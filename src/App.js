@@ -11,6 +11,7 @@ class App extends Component {
       background: '',
       isLoaded: false,
       location: '',
+      country: '',
       temp: '',
       weather_main: '',
       weather_desc: '',
@@ -33,7 +34,7 @@ class App extends Component {
 
   handleSubmit(e) {
     Promise.all([
-      fetch(`https://api.unsplash.com/search/photos?page=1&query=${this.state.query}&client_id=4e2cb4fefbcb90d124c35c05112315f1a9ba5e10de372fc7eb1f54c74807ade2`)
+      fetch(`https://api.unsplash.com/search/photos?page=1&query=${this.state.query}-city&client_id=4e2cb4fefbcb90d124c35c05112315f1a9ba5e10de372fc7eb1f54c74807ade2`)
       .then(res => res.json()),
       fetch(`https://api.openweathermap.org/data/2.5/weather?q=${this.state.query}&APPID=40e3500120c6d881f6f45e3e83c48104`)
       .then(res => res.json())
@@ -43,6 +44,7 @@ class App extends Component {
         isLoaded: true,
         background: result[0].results[0].urls.full,
         location: result[1].name,
+        country: result[1].sys.country,
         temp: result[1].main.temp,
         weather_main: result[1].weather[0].main,
         weather_desc:  result[1].weather[0].description,
@@ -56,7 +58,7 @@ class App extends Component {
 
   render() {
 
-    const {isLoaded, background, location, temp, weather_main, weather_desc, icon, isActive} = this.state;
+    const {isLoaded, background, location, temp, weather_main, weather_desc, icon, isActive, country} = this.state;
 
     const backgroundStyle = {      
       backgroundImage: `url("${background}")`,
@@ -85,6 +87,7 @@ class App extends Component {
           weather_desc={weather_desc}
           icon={icon}
           isActive={isActive}
+          country={country}
          />
          
         </div>
