@@ -11,9 +11,9 @@ const WeatherDisplay = (props) => {
             <h2>{props.location}, {props.country}</h2>
             <h4>{props.weather_main} - {capatalise(props.weather_desc)}</h4>
             <img src={`http://openweathermap.org/img/wn/${props.icon}@2x.png`} alt="Current weather icon"></img>
+            <p>Photo: {props.credit} on <a href={props.creditLink} target="_blank" rel="noopener noreferrer">Unsplash</a> </p>
         </div>
     )
     
 }
-
 export default WeatherDisplay;

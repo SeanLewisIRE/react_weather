@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import './App.css';
 import WeatherDisplay from './components/WeatherDisplay/WeatherDisplay';
+import Spinner from './components/Spinner/Spinner'
 import placeholderImg from './components/img/background-placeholder.jpg'
 
 class App extends Component {
@@ -16,6 +17,8 @@ class App extends Component {
       weather_main: '',
       weather_desc: '',
       icon: '',
+      credit: '',
+      creditLink: '',
       isActive: false
     };
     this.handleChange = this.handleChange.bind(this);
@@ -49,16 +52,17 @@ class App extends Component {
         weather_main: result[1].weather[0].main,
         weather_desc:  result[1].weather[0].description,
         icon: result[1].weather[0].icon,
+        credit: result[0].results[0].user.name,
+        creditLink: result[0].results[0].user.links.html,
         isActive: true
       });
     });
     e.preventDefault();
-
   }
 
   render() {
 
-    const {isLoaded, background, location, temp, weather_main, weather_desc, icon, isActive, country} = this.state;
+    const {isLoaded, background, location, temp, weather_main, weather_desc, icon, isActive, country, credit, creditLink} = this.state;
 
     const backgroundStyle = {      
       backgroundImage: `url("${background}")`,
@@ -72,30 +76,31 @@ class App extends Component {
         className="App"
         style={backgroundStyle}
         >
+        
+          <div className="searchbar-container">
+            <form className="searchbar-content" onSubmit={this.handleSubmit}>
+                <button className="btn" type="submit"><i className="icon fas fa-search fa-lg"></i></button>
+                <input className="searchbar-input" type="text" value={this.state.query} onChange={this.handleChange} placeholder="Search City..."/>
+            </form>
+          </div>
 
-        <div className="searchbar-container">
-          <form className="searchbar-content" onSubmit={this.handleSubmit}>
-              <button className="btn" type="submit"><i className="icon fas fa-search fa-lg"></i></button>
-              <input className="searchbar-input" type="text" value={this.state.query} onChange={this.handleChange} placeholder="Search City..."/>
-          </form>
-         </div>
+        
+          <Spinner />
 
-        <WeatherDisplay
-          location={location}
-          temp={temp}
-          weather_main={weather_main}
-          weather_desc={weather_desc}
-          icon={icon}
-          isActive={isActive}
-          country={country}
-         />
+          <WeatherDisplay
+            location={location}
+            temp={temp}
+            weather_main={weather_main}
+            weather_desc={weather_desc}
+            icon={icon}
+            isActive={isActive}
+            country={country}
+            credit={credit}
+            creditLink={creditLink}
+          />
          
         </div>
-      );
-     
-
-
-  
+      );  
   }
  
 }
