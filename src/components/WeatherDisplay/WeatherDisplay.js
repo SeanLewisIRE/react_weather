@@ -6,7 +6,7 @@ const WeatherDisplay = (props) => {
     const capatalise = (string) => string.charAt(0).toUpperCase() + string.slice(1);
 
     return (
-        <div className={`weather-container ${props.isActive ? "active" : ""}`}>
+        <div className="weather-container">
             <h1>{`${(props.temp- 273.15).toFixed(0)}°C`}</h1>
             <h2>{props.location}, {props.country}</h2>
             <h4>{props.weather_main} - {capatalise(props.weather_desc)}</h4>

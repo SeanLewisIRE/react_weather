@@ -1,7 +1,7 @@
 
 .weather-container {
     font-family: 'Roboto', sans-serif;
-    display: none;
+    display: block;
     position: absolute;
     bottom: 0;
     left: 0;
@@ -38,10 +38,6 @@
 .weather-container p a:hover {
     color: #c73e18;
     cursor: pointer;
-}
-
-.active {
-    display: block;
 }
 
 @media (min-width: 767px) {

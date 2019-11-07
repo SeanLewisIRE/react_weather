@@ -1,16 +1,18 @@
 import React, {Component} from 'react';
+import { unsplashURL, unsplashAPI, weatherURL, weatherAPI } from './config.js';
 import './App.css';
 import WeatherDisplay from './components/WeatherDisplay/WeatherDisplay';
 import Spinner from './components/Spinner/Spinner'
-import placeholderImg from './components/img/background-placeholder.jpg'
+import { thisTypeAnnotation } from '@babel/types';
+
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      query: '',
+      search: '',
       background: '',
-      isLoaded: false,
+      loading: false,
       location: '',
       country: '',
       temp: '',
@@ -18,33 +20,37 @@ class App extends Component {
       weather_desc: '',
       icon: '',
       credit: '',
-      creditLink: '',
-      isActive: false
-    };
-    this.handleChange = this.handleChange.bind(this);
+      creditLink: ''
+    };    
     this.componentDidMount = this.componentDidMount.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
-    this.setState({ background: placeholderImg });
+    this.fetchItems("London");
   };
-
+  
   handleChange(e) {
-    this.setState({query: e.target.value});
+    this.setState({search: e.target.value});
   };
-
 
   handleSubmit(e) {
+    this.setState({ loading: true })
+    this.fetchItems(this.state.search);
+    e.preventDefault();
+  }
+
+  fetchItems = (query) => {
     Promise.all([
-      fetch(`https://api.unsplash.com/search/photos?page=1&query=${this.state.query}-city&client_id=4e2cb4fefbcb90d124c35c05112315f1a9ba5e10de372fc7eb1f54c74807ade2`)
+      fetch(`${unsplashURL}&query=${query}-city&client_id=${unsplashAPI}`)
       .then(res => res.json()),
-      fetch(`https://api.openweathermap.org/data/2.5/weather?q=${this.state.query}&APPID=40e3500120c6d881f6f45e3e83c48104`)
+      fetch(`${weatherURL}?q=${query}&APPID=${weatherAPI}`)
       .then(res => res.json())
     ])
     .then((result) => {
       this.setState({
-        isLoaded: true,
+        loading: false,
         background: result[0].results[0].urls.full,
         location: result[1].name,
         country: result[1].sys.country,
@@ -53,16 +59,15 @@ class App extends Component {
         weather_desc:  result[1].weather[0].description,
         icon: result[1].weather[0].icon,
         credit: result[0].results[0].user.name,
-        creditLink: result[0].results[0].user.links.html,
-        isActive: true
+        creditLink: result[0].results[0].user.links.html
       });
     });
-    e.preventDefault();
   }
+
 
   render() {
 
-    const {isLoaded, background, location, temp, weather_main, weather_desc, icon, isActive, country, credit, creditLink} = this.state;
+    const {loading, background, location, temp, weather_main, weather_desc, icon, country, credit, creditLink} = this.state;
 
     const backgroundStyle = {      
       backgroundImage: `url("${background}")`,
@@ -85,7 +90,7 @@ class App extends Component {
           </div>
 
         
-          <Spinner />
+          {loading ? <Spinner /> : null}
 
           <WeatherDisplay
             location={location}
@@ -93,7 +98,6 @@ class App extends Component {
             weather_main={weather_main}
             weather_desc={weather_desc}
             icon={icon}
-            isActive={isActive}
             country={country}
             credit={credit}
             creditLink={creditLink}
