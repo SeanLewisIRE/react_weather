@@ -3,7 +3,6 @@ import { unsplashURL, unsplashAPI, weatherURL, weatherAPI } from './config.js';
 import './App.css';
 import WeatherDisplay from './components/WeatherDisplay/WeatherDisplay';
 import Spinner from './components/Spinner/Spinner'
-import { thisTypeAnnotation } from '@babel/types';
 
 
 class App extends Component {

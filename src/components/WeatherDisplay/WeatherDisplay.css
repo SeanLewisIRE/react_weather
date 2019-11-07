@@ -43,6 +43,9 @@
 @media (min-width: 767px) {
 
     .weather-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         margin: 0 0 4% 4%;
         width: 35%;
         height: 35vh;
@@ -51,12 +54,6 @@
 
     .weather-container p {
         font-size: 11px;
-    }
-
-    .active {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
     }
 }
 
